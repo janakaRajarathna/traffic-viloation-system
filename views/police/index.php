@@ -6,66 +6,18 @@
     .primary-gradient { background: linear-gradient(135deg, #0061a4 0%, #2196f3 100%); }
 </style>
 
-<aside class="h-screen w-64 fixed left-0 top-0 bg-surface/80 backdrop-blur-xl flex flex-col py-8 px-4 z-50 border-r border-outline-variant/10">
-    <div class="mb-10 px-4">
-        <h1 class="text-xl font-bold tracking-tight text-on-surface">Dash Cam</h1>
-        <p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">Violation Management</p>
-    </div>
+<?php require APP_ROOT . 'views/partials/police_sidebar.php'; ?>
 
-    <a class="mb-8 flex items-center justify-center gap-2 primary-gradient text-white py-3 px-4 rounded-xl font-semibold shadow-[0_12px_32px_rgba(0,97,164,0.15)] active:scale-95 transition-transform" href="<?= url('app_violations') ?>">
-        <span class="material-symbols-outlined" data-icon="add">add</span>
-        New Violation
-    </a>
-
-    <nav class="flex-1 space-y-1">
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-4 border-primary bg-surface-container-low transition-colors" href="<?= url('app_police') ?>">
-            <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-            <span>Dashboard</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="<?= url('app_violations') ?>">
-            <span class="material-symbols-outlined" data-icon="gavel">gavel</span>
-            <span>Violations</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="<?= url('app_citizen_reports') ?>">
-            <span class="material-symbols-outlined" data-icon="campaign">campaign</span>
-            <span>Citizen Reports</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
-            <span class="material-symbols-outlined" data-icon="search_check">search_check</span>
-            <span>Vehicle Search</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
-            <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-            <span>Analytics</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
-            <span class="material-symbols-outlined" data-icon="settings">settings</span>
-            <span>Settings</span>
-        </a>
-    </nav>
-
-    <div class="mt-auto space-y-1 pt-4 border-t border-outline-variant/10">
-        <div class="px-4 py-3">
-            <p class="text-sm font-bold text-on-surface truncate"><?= e($user->fullName ?? 'Officer') ?></p>
-            <p class="text-xs text-on-surface-variant truncate">Badge / NIC <?= e((string) ($user->NIC ?? 'N/A')) ?></p>
-        </div>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
-            <span class="material-symbols-outlined" data-icon="help">help</span>
-            <span>Support</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-error hover:bg-error-container/20 transition-colors" href="<?= url('app_logout') ?>">
-            <span class="material-symbols-outlined" data-icon="logout">logout</span>
-            <span>Logout</span>
-        </a>
-    </div>
-</aside>
-
-<header class="flex justify-between items-center w-full px-8 py-4 ml-64 max-w-[calc(100%-16rem)] bg-surface/80 backdrop-blur-xl sticky top-0 z-40 border-b border-outline-variant/10">
-    <div class="flex items-center gap-8">
-        <h2 class="text-lg font-black text-on-surface">Enforcement Portal</h2>
-        <div class="relative group">
+<header class="fixed top-0 w-full md:w-[calc(100%-16rem)] md:right-0 z-40 bg-surface/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 border-b border-surface-container-highest transition-all">
+    <div class="flex items-center gap-3">
+        <button id="open-sidebar-btn" type="button" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <span class="text-xl font-extrabold tracking-tight text-primary font-headline md:hidden">Dash Cam</span>
+        <h2 class="text-lg font-black text-on-surface hidden md:block">Enforcement Portal</h2>
+        <div class="relative group hidden sm:block">
             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
-            <input class="pl-10 pr-4 py-2 bg-surface-container-highest rounded-full border-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-sm w-64" placeholder="Search vehicle or ID..." type="text"/>
+            <input class="pl-10 pr-4 py-2 bg-surface-container-highest rounded-full border-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-sm w-48 lg:w-64" placeholder="Search vehicle or ID..." type="text"/>
         </div>
     </div>
 
@@ -95,7 +47,7 @@
     </div>
 </header>
 
-<main class="ml-64 p-8 max-w-[1400px]">
+<main class="md:ml-64 pt-24 pb-32 px-4 md:px-8 max-w-[1400px] mx-auto space-y-8 flex-1 transition-all">
     <header class="mb-10 flex justify-between items-end">
         <div>
             <p class="text-primary font-semibold text-sm mb-1">On duty, <?= e($user->fullName ?? 'Officer') ?></p>
@@ -173,57 +125,59 @@
             </a>
         </div>
 
-        <div class="flex flex-col">
-            <div class="grid grid-cols-6 gap-4 px-6 py-4 bg-surface-container-low text-xs font-bold uppercase tracking-widest text-on-surface-variant">
-                <div class="col-span-1">Vehicle Plate</div>
-                <div class="col-span-2">Violation Type</div>
-                <div class="col-span-1">Date &amp; Time</div>
-                <div class="col-span-1 text-right">Fine Amount</div>
-                <div class="col-span-1 text-center">Status</div>
-            </div>
-
-            <?php if (empty($recentViolations)): ?>
-                <div class="px-6 py-8 text-center text-on-surface-variant">
-                    No violations recorded yet.
-                    <a class="text-primary font-bold hover:underline" href="<?= url('app_violations') ?>">Record the first violation</a>
+        <div class="overflow-x-auto">
+            <div class="min-w-[800px] flex flex-col">
+                <div class="grid grid-cols-6 gap-4 px-6 py-4 bg-surface-container-low text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                    <div class="col-span-1">Vehicle Plate</div>
+                    <div class="col-span-2">Violation Type</div>
+                    <div class="col-span-1">Date &amp; Time</div>
+                    <div class="col-span-1 text-right">Fine Amount</div>
+                    <div class="col-span-1 text-center">Status</div>
                 </div>
-            <?php else: ?>
-                <?php foreach ($recentViolations as $index => $violation): ?>
-                    <?php
-                        $statusClass = $violation->status === 'Paid'
-                            ? 'bg-on-secondary-container/10 text-on-secondary-container'
-                            : (in_array($violation->status, ['Unpaid'], true)
-                                ? 'bg-error-container text-on-error-container'
-                                : 'bg-tertiary-container/20 text-on-tertiary-container');
-                        $violationDate = $violation->createdAt ?? $violation->incidentDate;
-                        $rowBg = ($index + 1) % 2 === 0 ? 'bg-surface-container-low/30' : '';
-                    ?>
-                    <div class="grid grid-cols-6 gap-4 px-6 py-5 items-center <?= e($rowBg) ?> hover:bg-surface-container-low transition-colors group">
-                        <div class="col-span-1">
-                            <span class="bg-on-surface text-surface px-3 py-1.5 rounded-lg font-mono text-sm font-bold tracking-widest shadow-sm">
-                                <?= e($violation->vehicleNumber ?? 'N/A') ?>
-                            </span>
-                        </div>
-                        <div class="col-span-2 flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                <span class="material-symbols-outlined text-sm" data-icon="gavel">gavel</span>
-                            </div>
-                            <span class="font-semibold text-on-surface"><?= e($violation->violationType) ?></span>
-                        </div>
-                        <div class="col-span-1 text-sm text-on-surface-variant">
-                            <?= $violationDate ? e($violationDate->format('M d, Y h:i A')) : '—' ?>
-                        </div>
-                        <div class="col-span-1 text-right font-bold text-on-surface font-headline">
-                            $<?= e(number_format((float) $violation->fineAmount, 2)) ?>
-                        </div>
-                        <div class="col-span-1 flex justify-center">
-                            <span class="px-4 py-1 rounded-full text-xs font-bold <?= e($statusClass) ?>">
-                                <?= e($violation->status) ?>
-                            </span>
-                        </div>
+
+                <?php if (empty($recentViolations)): ?>
+                    <div class="px-6 py-8 text-center text-on-surface-variant">
+                        No violations recorded yet.
+                        <a class="text-primary font-bold hover:underline" href="<?= url('app_violations') ?>">Record the first violation</a>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                <?php else: ?>
+                    <?php foreach ($recentViolations as $index => $violation): ?>
+                        <?php
+                            $statusClass = $violation->status === 'Paid'
+                                ? 'bg-on-secondary-container/10 text-on-secondary-container'
+                                : (in_array($violation->status, ['Unpaid'], true)
+                                    ? 'bg-error-container text-on-error-container'
+                                    : 'bg-tertiary-container/20 text-on-tertiary-container');
+                            $violationDate = $violation->createdAt ?? $violation->incidentDate;
+                            $rowBg = ($index + 1) % 2 === 0 ? 'bg-surface-container-low/30' : '';
+                        ?>
+                        <div class="grid grid-cols-6 gap-4 px-6 py-5 items-center <?= e($rowBg) ?> hover:bg-surface-container-low transition-colors group">
+                            <div class="col-span-1">
+                                <span class="bg-on-surface text-surface px-3 py-1.5 rounded-lg font-mono text-sm font-bold tracking-widest shadow-sm">
+                                    <?= e($violation->vehicleNumber ?? 'N/A') ?>
+                                </span>
+                            </div>
+                            <div class="col-span-2 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-sm" data-icon="gavel">gavel</span>
+                                </div>
+                                <span class="font-semibold text-on-surface"><?= e($violation->violationType) ?></span>
+                            </div>
+                            <div class="col-span-1 text-sm text-on-surface-variant">
+                                <?= $violationDate ? e($violationDate->format('M d, Y h:i A')) : '—' ?>
+                            </div>
+                            <div class="col-span-1 text-right font-bold text-on-surface font-headline">
+                                $<?= e(number_format((float) $violation->fineAmount, 2)) ?>
+                            </div>
+                            <div class="col-span-1 flex justify-center">
+                                <span class="px-4 py-1 rounded-full text-xs font-bold <?= e($statusClass) ?>">
+                                    <?= e($violation->status) ?>
+                                </span>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -280,3 +234,26 @@
         <?php endif; ?>
     </section>
 </main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sidebar = document.getElementById("police-sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        const openBtn = document.getElementById("open-sidebar-btn");
+        const closeBtn = document.getElementById("close-sidebar-btn");
+
+        function openSidebar() {
+            sidebar.classList.remove("-translate-x-full");
+            overlay.classList.remove("hidden");
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+        }
+
+        if (openBtn) openBtn.addEventListener("click", openSidebar);
+        if (closeBtn) closeBtn.addEventListener("click", closeSidebar);
+        if (overlay) overlay.addEventListener("click", closeSidebar);
+    });
+</script>

@@ -108,45 +108,47 @@
                 </div>
             </div>
             <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-surface-container">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-surface-container-low border-b border-surface-container">
-                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Driver / Vehicle</th>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Offense</th>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Amount</th>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-surface">
-                        <?php if (empty($recentViolations)): ?>
-                            <tr><td colspan="4" class="p-8 text-center text-on-surface-variant text-sm font-medium">No violation records found.</td></tr>
-                        <?php else: ?>
-                            <?php foreach ($recentViolations as $violation): ?>
-                                <?php
-                                    $statusClass = $violation->status === 'Paid'
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'bg-red-100 text-red-700';
-                                ?>
-                                <tr class="hover:bg-surface-container-low transition-colors">
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-bold text-on-surface">User ID: <?= e((string) $violation->driverId) ?></p>
-                                        <p class="text-[10px] font-medium text-on-surface-variant"><?= e($violation->vehicleNumber ?? 'Unknown') ?></p>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <p class="text-sm font-medium text-on-surface"><?= e($violation->violationType) ?></p>
-                                        <p class="text-[10px] text-on-surface-variant"><?= e($violation->location) ?></p>
-                                    </td>
-                                    <td class="px-6 py-4 font-headline font-bold text-on-surface">
-                                        $<?= e(number_format((float) $violation->fineAmount)) ?>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="px-3 py-1 rounded-full <?= e($statusClass) ?> text-[10px] font-black uppercase tracking-tighter"><?= e($violation->status) ?></span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container-low border-b border-surface-container">
+                                <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Driver / Vehicle</th>
+                                <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Offense</th>
+                                <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Amount</th>
+                                <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-surface">
+                            <?php if (empty($recentViolations)): ?>
+                                <tr><td colspan="4" class="p-8 text-center text-on-surface-variant text-sm font-medium">No violation records found.</td></tr>
+                            <?php else: ?>
+                                <?php foreach ($recentViolations as $violation): ?>
+                                    <?php
+                                        $statusClass = $violation->status === 'Paid'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-red-100 text-red-700';
+                                    ?>
+                                    <tr class="hover:bg-surface-container-low transition-colors">
+                                        <td class="px-6 py-4">
+                                            <p class="text-sm font-bold text-on-surface">User ID: <?= e((string) $violation->driverId) ?></p>
+                                            <p class="text-[10px] font-medium text-on-surface-variant"><?= e($violation->vehicleNumber ?? 'Unknown') ?></p>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <p class="text-sm font-medium text-on-surface"><?= e($violation->violationType) ?></p>
+                                            <p class="text-[10px] text-on-surface-variant"><?= e($violation->location) ?></p>
+                                        </td>
+                                        <td class="px-6 py-4 font-headline font-bold text-on-surface">
+                                            $<?= e(number_format((float) $violation->fineAmount)) ?>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="px-3 py-1 rounded-full <?= e($statusClass) ?> text-[10px] font-black uppercase tracking-tighter"><?= e($violation->status) ?></span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

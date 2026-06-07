@@ -10,60 +10,26 @@
     }
 </style>
 
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f6faff]/80 backdrop-blur-xl flex flex-col py-8 px-4 shadow-[0_12px_32px_rgba(0,97,164,0.06)] z-50">
-    <div class="mb-10 px-2">
-        <h1 class="text-xl font-bold tracking-tight text-[#171c20]">Dash Cam</h1>
-        <p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Violation Management</p>
-    </div>
-    <nav class="flex-1 space-y-1">
-        <?php if (!empty($isPoliceView)): ?>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="<?= url('app_police') ?>">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">dashboard</span>
-            <span class="font-medium">Dashboard</span>
-        </a>
-        <?php else: ?>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="<?= url('app_citizen') ?>">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">dashboard</span>
-            <span class="font-medium">Dashboard</span>
-        </a>
-        <?php endif; ?>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#0061a4] font-bold border-r-4 border-[#0061a4] bg-[#f0f4fa] transition-colors group" href="<?= url('app_citizen_reports') ?>">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">campaign</span>
-            <span class="font-medium">Citizen Reports</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">search_check</span>
-            <span class="font-medium">Vehicle Search</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">analytics</span>
-            <span class="font-medium">Analytics</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">settings</span>
-            <span class="font-medium">Settings</span>
-        </a>
-    </nav>
-    <div class="pt-6 border-t border-outline-variant/10 space-y-1 mt-auto">
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">help</span>
-            <span class="font-medium">Support</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="<?= url('app_logout') ?>">
-            <span class="material-symbols-outlined group-active:scale-95 transition-transform">logout</span>
-            <span class="font-medium">Logout</span>
-        </a>
-    </div>
-</aside>
+<?php if (!empty($isPoliceView)): ?>
+    <?php require APP_ROOT . 'views/partials/police_sidebar.php'; ?>
+<?php else: ?>
+    <?php require APP_ROOT . 'views/partials/citizen_sidebar.php'; ?>
+<?php endif; ?>
 
-<header class="fixed top-0 right-0 left-64 bg-[#f6faff]/80 backdrop-blur-xl z-40 flex justify-between items-center px-8 py-4 h-16">
-    <span class="text-xl font-extrabold tracking-tight text-on-surface"><?= !empty($isPoliceView) ? 'Citizen Reports Review' : 'Citizen Reports' ?></span>
-    <a href="<?= url('app_logout') ?>" class="p-2 text-on-surface-variant hover:bg-error-container/30 rounded-full transition-colors" title="Logout">
+<header class="fixed top-0 w-full md:w-[calc(100%-16rem)] md:right-0 z-40 bg-[#f6faff]/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 border-b border-surface-container-highest transition-all">
+    <div class="flex items-center gap-3">
+        <button id="open-sidebar-btn" type="button" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <span class="text-xl font-extrabold tracking-tight text-primary font-headline md:hidden">Dash Cam</span>
+        <span class="text-xl font-extrabold tracking-tight text-on-surface hidden md:block"><?= !empty($isPoliceView) ? 'Citizen Reports Review' : 'Citizen Reports' ?></span>
+    </div>
+    <a href="<?= url('app_logout') ?>" class="p-2 text-on-surface-variant hover:bg-error-container/30 rounded-full transition-colors flex items-center" title="Logout">
         <span class="material-symbols-outlined">logout</span>
     </a>
 </header>
 
-<main class="ml-64 pt-24 pb-12 px-8 max-w-7xl">
+<main class="md:ml-64 pt-24 pb-32 px-4 md:px-8 max-w-7xl mx-auto transition-all">
     <div class="mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
         <div class="max-w-2xl">
             <h2 class="text-4xl font-extrabold text-on-surface mb-4 tracking-tight">Help Build a Safer Community</h2>
@@ -212,3 +178,26 @@
         </div>
     </section>
 </main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sidebar = document.getElementById("police-sidebar") || document.getElementById("citizen-sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        const openBtn = document.getElementById("open-sidebar-btn");
+        const closeBtn = document.getElementById("close-sidebar-btn");
+
+        function openSidebar() {
+            if (sidebar) sidebar.classList.remove("-translate-x-full");
+            if (overlay) overlay.classList.remove("hidden");
+        }
+
+        function closeSidebar() {
+            if (sidebar) sidebar.classList.add("-translate-x-full");
+            if (overlay) overlay.classList.add("hidden");
+        }
+
+        if (openBtn) openBtn.addEventListener("click", openSidebar);
+        if (closeBtn) closeBtn.addEventListener("click", closeSidebar);
+        if (overlay) overlay.addEventListener("click", closeSidebar);
+    });
+</script>
