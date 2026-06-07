@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Citizen Reporting Portal - Dash Cam</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e4e8ee",
+                        "surface-dim": "#d6dae0",
+                        "inverse-surface": "#2c3135",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#002c4f",
+                        "primary-container": "#2196f3",
+                        "outline-variant": "#bfc7d4",
+                        "secondary-container": "#b4d4fe",
+                        "on-primary-fixed": "#001d36",
+                        "on-secondary-fixed-variant": "#28496b",
+                        "on-tertiary-container": "#452200",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary-fixed-variant": "#00497d",
+                        "secondary-fixed-dim": "#a9c9f2",
+                        "primary-fixed": "#d1e4ff",
+                        "on-background": "#171c20",
+                        "primary-fixed-dim": "#9ecaff",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-secondary-container": "#3c5c7f",
+                        "error": "#ba1a1a",
+                        "outline": "#707883",
+                        "on-tertiary-fixed-variant": "#6d3900",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f6faff",
+                        "surface-container-low": "#f0f4fa",
+                        "on-surface-variant": "#404752",
+                        "inverse-primary": "#9ecaff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#dfe3e9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#dfe3e9",
+                        "on-surface": "#171c20",
+                        "tertiary-container": "#db7900",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "background": "#f6faff",
+                        "surface-tint": "#0061a4",
+                        "inverse-on-surface": "#edf1f7",
+                        "tertiary": "#904d00",
+                        "on-error": "#ffffff",
+                        "surface-container": "#eaeef4",
+                        "surface": "#f6faff",
+                        "tertiary-fixed": "#ffdcc2",
+                        "on-primary": "#ffffff",
+                        "secondary": "#416084",
+                        "on-secondary-fixed": "#001d36",
+                        "primary": "#0061a4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, #0061a4 0%, #2196f3 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f6faff]/80 dark:bg-slate-900/80 backdrop-blur-xl flex flex-col py-8 px-4 shadow-[0_12px_32px_rgba(0,97,164,0.06)] z-50">
+<div class="mb-10 px-2">
+<h1 class="text-xl font-bold tracking-tight text-[#171c20] dark:text-white">Dash Cam</h1>
+<p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Violation Management</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">gavel</span>
+<span class="font-medium">Violations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#0061a4] font-bold border-r-4 border-[#0061a4] bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">campaign</span>
+<span class="font-medium">Citizen Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">search_check</span>
+<span class="font-medium">Vehicle Search</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">analytics</span>
+<span class="font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<button class="mt-4 mb-8 bg-primary-gradient text-white py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add</span>
+            New Violation
+        </button>
+<div class="pt-6 border-t border-outline-variant/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">help</span>
+<span class="font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#404752] hover:bg-[#f0f4fa] transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-95 transition-transform">logout</span>
+<span class="font-medium">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 bg-[#f6faff]/80 backdrop-blur-xl z-40 flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-highest border-none rounded-full w-80 text-sm focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Search directives or reports..." type="text"/>
+</div>
+<nav class="flex gap-6">
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-all" href="#">Directives</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-all border-b-2 border-transparent hover:border-primary" href="#">Bylaws</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-all" href="#">Resources</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 bg-surface-container-high border border-outline-variant/20">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="professional headshot of a mature civil service administrator with glasses in a bright office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLlcvRLDGFdq4ZvB3Xq0KfmOhSETRK-5_p1SRRWcqDX7iLwpb59dB6WAB1g715N5WAm1NpZdvK6zXIFqBLmxbMAs299C4vBccmylxggKRz5TsT1-POQWc1JEkeruUQr6AyQOW4OLV16fVt0kfBeyN_UFlBeQtL-Ahtwjs5xXpzmkrD0YfRQZ2iFHwcevxQ6TYzrqpDYMAtf99oRqkIK9HlyY3w1v-Wckl3cbSE_w7tf-5_oEjY-oY64YaiAl-RIOiJAZyogbPqgig"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 pb-12 px-8 max-w-7xl">
+<!-- Hero Section -->
+<div class="mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="max-w-2xl">
+<h2 class="text-4xl font-extrabold text-on-surface mb-4 tracking-tight">Help Build a Safer Community</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed">
+                    Transparency starts with you. Report local violations quickly and track their progress in real-time. Your contribution helps maintain order and safety for everyone.
+                </p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-low px-6 py-4 rounded-xl">
+<div class="flex flex-col">
+<span class="text-3xl font-black text-primary">1,284</span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Active Citizen Reports</span>
+</div>
+<div class="w-px h-10 bg-outline-variant/30 mx-2"></div>
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Report Form Section -->
+<section class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-8 shadow-[0_12px_32px_rgba(0,97,164,0.04)]">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary-fixed p-3 rounded-lg text-primary">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<h3 class="text-2xl font-bold">File a New Report</h3>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Date of Incident</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" type="date"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">location_on</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" placeholder="Street name or neighborhood..." type="text"/>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Violation Description</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all resize-none" placeholder="Please describe the violation in detail..." rows="4"></textarea>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant px-1">Upload Visual Evidence (Photo/Video)</label>
+<div class="border-2 border-dashed border-outline-variant/50 rounded-xl p-8 flex flex-col items-center justify-center bg-surface-container-low hover:bg-white hover:border-primary/50 transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-outline group-hover:text-primary transition-colors mb-2">cloud_upload</span>
+<p class="text-sm font-medium text-on-surface-variant">Drag files here or <span class="text-primary underline">browse</span></p>
+<p class="text-xs text-outline mt-1 italic">Maximum file size: 25MB (PNG, JPG, MP4)</p>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-secondary-container/20 p-4 rounded-xl">
+<span class="material-symbols-outlined text-on-secondary-container">info</span>
+<p class="text-xs text-on-secondary-container font-medium leading-relaxed">
+                            Reports are strictly confidential. For immediate hazards to life or property, please contact emergency services directly.
+                        </p>
+</div>
+<button class="w-full bg-primary-gradient text-white py-4 rounded-xl font-extrabold text-lg shadow-xl shadow-primary/25 hover:opacity-90 active:scale-[0.98] transition-all" type="submit">
+                        Submit Official Report
+                    </button>
+</form>
+</section>
+<!-- Map/Info Section (Asymmetric Balance) -->
+<aside class="lg:col-span-5 space-y-8">
+<div class="bg-surface-container-high rounded-xl overflow-hidden aspect-square lg:aspect-auto lg:h-[400px] relative">
+<img alt="City Map View" class="w-full h-full object-cover grayscale opacity-60" data-alt="clean minimal digital map interface showing urban street grid with soft blue and grey markers" data-location="New York" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6d0PxqoaMwIRi2Hf9uTkedVv9XwQjk1g6RRYLQxtbZ7f8-xmYeYb9nIRm-zZJZPTuVKWyHpXvi0QGVWWEzBsP9jQJCQ_Cxmn173NtugnYksQT2Z67ZbV4lBYmY97vUYE8cUwY4qhhgReZJ4CtsoBzS83aq9bavCxMrUBGLGtXIU0rni-cy1OyM3bcQXjmactYMPmIEA7_xaobazLvxK1tzWMGPQIOu9hRWGeZ0DC2JrUMAo4ohlBlgvaOcvUCCteKznc8SaatuP8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6 bg-surface-container-lowest/90 backdrop-blur p-4 rounded-xl shadow-lg">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Live Reporting Map</span>
+</div>
+<p class="text-sm text-on-surface font-medium">12 active reports in your current vicinity.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_rgba(0,97,164,0.04)]">
+<h4 class="font-bold text-on-surface mb-4">Quick Resources</h4>
+<div class="space-y-3">
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">description</span>
+<span class="text-sm font-medium">Bylaw PDF Guide</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-primary">open_in_new</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">verified_user</span>
+<span class="text-sm font-medium">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline group-hover:text-primary">open_in_new</span>
+</a>
+</div>
+</div>
+</aside>
+</div>
+<!-- My Reports Table Section -->
+<section class="mt-12 bg-surface-container-lowest rounded-xl shadow-[0_12px_32px_rgba(0,97,164,0.04)] overflow-hidden">
+<div class="p-8 border-b border-outline-variant/10 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="bg-surface-container-high p-3 rounded-lg text-on-surface">
+<span class="material-symbols-outlined">folder_shared</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold">My Recent Reports</h3>
+<p class="text-sm text-on-surface-variant">Tracking your contributions to civic order</p>
+</div>
+</div>
+<button class="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
+                    View Full History <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest font-bold">
+<th class="px-8 py-4">Report ID</th>
+<th class="px-8 py-4">Violation Type</th>
+<th class="px-8 py-4">Date Submitted</th>
+<th class="px-8 py-4">Location</th>
+<th class="px-8 py-4">Status</th>
+<th class="px-8 py-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-6 font-mono text-sm text-on-surface-variant">#CR-92834</td>
+<td class="px-8 py-6 font-bold text-on-surface">Illegal Parking</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Madison Ave &amp; 42nd</td>
+<td class="px-8 py-6">
+<span class="bg-tertiary-container/10 text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+                                    Pending Review
+                                </span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-primary font-bold text-sm hover:opacity-70">Details</button>
+</td>
+</tr>
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-6 font-mono text-sm text-on-surface-variant">#CR-92812</td>
+<td class="px-8 py-6 font-bold text-on-surface">Damaged Sidewalk</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Oct 21, 2023</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Central Park West</td>
+<td class="px-8 py-6">
+<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                    Approved
+                                </span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-primary font-bold text-sm hover:opacity-70">Details</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-6 font-mono text-sm text-on-surface-variant">#CR-92790</td>
+<td class="px-8 py-6 font-bold text-on-surface">Noise Complaint</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Oct 18, 2023</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant">Queens Blvd</td>
+<td class="px-8 py-6">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                    Rejected
+                                </span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-primary font-bold text-sm hover:opacity-70">Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-6 bg-surface-container-low/30 text-center">
+<p class="text-sm text-on-surface-variant">
+                    Showing 3 of 14 reports. 
+                    <span class="font-bold text-primary cursor-pointer hover:underline">Load more reports</span>
+</p>
+</div>
+</section>
+</main>
+</body></html>

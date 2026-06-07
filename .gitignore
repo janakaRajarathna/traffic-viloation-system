@@ -1,0 +1,4 @@
+.env.local
+/vendor/
+/public/uploads/evidence/*
+!/public/uploads/evidence/.gitignore
