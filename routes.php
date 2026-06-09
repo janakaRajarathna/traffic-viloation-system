@@ -29,7 +29,7 @@ return static function (Router $router): void {
 
     $router->get('/citizen', fn () => $citizen->index());
     $router->get('/citizen/profile', fn () => $citizen->profile());
-    $router->get('/citizen/settings', fn () => $citizen->settings());
+    $router->match(['GET', 'POST'], '/citizen/settings', fn () => $citizen->settings());
 
     $router->get('/police', fn () => $police->index());
 

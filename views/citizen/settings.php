@@ -12,6 +12,7 @@
 </header>
 
 <main class="md:ml-64 pt-24 pb-32 px-4 md:px-8 max-w-4xl mx-auto space-y-8 flex-1 transition-all">
+    <?php require APP_ROOT . 'views/partials/flashes.php'; ?>
     <div class="space-y-10">
         <section class="space-y-4">
             <div class="px-2">
@@ -19,15 +20,16 @@
                 <p class="text-on-surface-variant text-sm font-medium">Update your public profile and contact details.</p>
             </div>
             <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
-                <form class="space-y-6">
+                <form method="POST" action="<?= url('app_citizen_settings') ?>" class="space-y-6">
+                    <input type="hidden" name="action" value="update_profile">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Full Name</label>
-                            <input type="text" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e($user->fullName) ?>">
+                            <input type="text" name="full_name" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e($user->fullName) ?>" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Telephone Number</label>
-                            <input type="tel" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e((string) $user->telNo) ?>">
+                            <input type="tel" name="tel_no" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e((string) $user->telNo) ?>" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">National ID Card</label>
@@ -35,7 +37,7 @@
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">License Number</label>
-                            <input type="text" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e($user->licenceNo !== null ? (string) $user->licenceNo : '') ?>">
+                            <input type="text" name="licence_no" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e($user->licenceNo !== null ? (string) $user->licenceNo : '') ?>">
                         </div>
                     </div>
                     <div class="flex justify-end pt-4">
@@ -53,19 +55,20 @@
                 <p class="text-on-surface-variant text-sm font-medium">Manage your password and account security.</p>
             </div>
             <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
-                <form class="space-y-6">
+                <form method="POST" action="<?= url('app_citizen_settings') ?>" class="space-y-6">
+                    <input type="hidden" name="action" value="update_password">
                     <div class="space-y-2">
                         <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Current Password</label>
-                        <input type="password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium">
+                        <input type="password" name="current_password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">New Password</label>
-                            <input type="password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium">
+                            <input type="password" name="new_password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Confirm New Password</label>
-                            <input type="password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium">
+                            <input type="password" name="confirm_password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
                         </div>
                     </div>
                     <div class="flex justify-end pt-4">

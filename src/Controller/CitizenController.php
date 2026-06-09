@@ -78,6 +78,45 @@ final class CitizenController
     {
         $user = $this->requireUser();
 
+        if (request_method() === 'POST') {
+            $action = (string) request_post('action', '');
+
+            if ($action === 'update_profile') {
+                $fullName = trim((string) request_post('full_name', ''));
+                $telNo = (string) request_post('tel_no', '');
+                $licenceNo = request_post('licence_no');
+
+                if ($fullName === '' || $telNo === '') {
+                    flash('error', 'Full Name and Telephone Number are required.');
+                } else {
+                    $telNoInt = (int) preg_replace('/[^0-9]/', '', $telNo);
+                    $licenceNoInt = ($licenceNo !== null && trim((string) $licenceNo) !== '') ? (int) preg_replace('/[^0-9]/', '', (string) $licenceNo) : null;
+                    
+                    $this->users->updateProfile((int) $user->id, $fullName, $licenceNoInt, $telNoInt);
+                    flash('success', 'Personal details updated successfully.');
+                }
+                redirect(url('app_citizen_settings'));
+            }
+
+            if ($action === 'update_password') {
+                $currentPassword = (string) request_post('current_password', '');
+                $newPassword = (string) request_post('new_password', '');
+                $confirmPassword = (string) request_post('confirm_password', '');
+
+                if ($currentPassword === '' || $newPassword === '' || $confirmPassword === '') {
+                    flash('error', 'All password fields are required.');
+                } elseif ($currentPassword !== $user->password) {
+                    flash('error', 'Current password is incorrect.');
+                } elseif ($newPassword !== $confirmPassword) {
+                    flash('error', 'New password and confirm password do not match.');
+                } else {
+                    $this->users->updatePassword((int) $user->id, $newPassword);
+                    flash('success', 'Password updated successfully.');
+                }
+                redirect(url('app_citizen_settings'));
+            }
+        }
+
         render('citizen/settings', [
             'pageTitle' => 'Settings | Civic Flow',
             'user' => $user,
