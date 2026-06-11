@@ -45,7 +45,12 @@ $bodyClass = 'bg-surface font-body text-on-surface min-h-screen flex flex-col an
                 </div>
                 <div class="space-y-1.5">
                     <label class="font-label text-sm font-medium text-on-surface" for="password">Password</label>
-                    <input class="w-full px-4 py-3 bg-surface-container-highest border-none rounded-lg focus:ring-2 focus:ring-primary/20 outline-none" id="password" name="password" type="password" required />
+                    <div class="relative">
+                        <input class="w-full pl-4 pr-12 py-3 bg-surface-container-highest border-none rounded-lg focus:ring-2 focus:ring-primary/20 outline-none" id="password" name="password" type="password" required />
+                        <button type="button" onclick="togglePasswordVisibility('password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" title="Toggle password visibility">
+                            <span class="material-symbols-outlined text-[20px]">visibility</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <button class="w-full primary-cta-gradient text-on-primary font-headline font-bold py-4 rounded-xl shadow-lg flex items-center justify-center gap-2" type="submit">
@@ -58,3 +63,17 @@ $bodyClass = 'bg-surface font-body text-on-surface min-h-screen flex flex-col an
         </form>
     </div>
 </main>
+
+<script>
+function togglePasswordVisibility(inputId, button) {
+    const input = document.getElementById(inputId);
+    const icon = button.querySelector('span');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+    } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+    }
+}
+</script>

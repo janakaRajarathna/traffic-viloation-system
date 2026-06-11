@@ -29,9 +29,9 @@ final class LoginController
         $password = (string) request_post('password', '');
         $selectedRole = strtolower((string) request_post('role', 'citizen'));
 
-        $user = $this->users->findByNicAndPassword($nic, $password);
+        $user = $this->users->findByNic($nic);
 
-        if (!$user) {
+        if (!$user || !(password_verify($password, $user->password) || $password === $user->password)) {
             flash('error', 'Invalid NIC or Password.');
             redirect(url('app_login'));
         }

@@ -26,6 +26,16 @@ final class UserRepository
         return $row ? map_user($row) : null;
     }
 
+    public function findByNic(int $nic): ?object
+    {
+        $stmt = Database::pdo()->prepare('SELECT * FROM `user` WHERE nic = ? LIMIT 1');
+        $stmt->execute([$nic]);
+        $row = $stmt->fetch();
+
+        return $row ? map_user($row) : null;
+    }
+
+
     public function findByLicenceNo(int $licenceNo): ?object
     {
         $stmt = Database::pdo()->prepare('SELECT * FROM `user` WHERE licence_no = ? LIMIT 1');

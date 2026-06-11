@@ -105,12 +105,12 @@ final class CitizenController
 
                 if ($currentPassword === '' || $newPassword === '' || $confirmPassword === '') {
                     flash('error', 'All password fields are required.');
-                } elseif ($currentPassword !== $user->password) {
+                } elseif (!password_verify($currentPassword, $user->password) && $currentPassword !== $user->password) {
                     flash('error', 'Current password is incorrect.');
                 } elseif ($newPassword !== $confirmPassword) {
                     flash('error', 'New password and confirm password do not match.');
                 } else {
-                    $this->users->updatePassword((int) $user->id, $newPassword);
+                    $this->users->updatePassword((int) $user->id, password_hash($newPassword, PASSWORD_DEFAULT));
                     flash('success', 'Password updated successfully.');
                 }
                 redirect(url('app_citizen_settings'));

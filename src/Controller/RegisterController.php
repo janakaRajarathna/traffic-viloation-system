@@ -36,7 +36,7 @@ final class RegisterController
 
         $userId = $this->users->create([
             'full_name' => $fullName,
-            'password' => $password,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
             'role' => $role,
             'licence_no' => $licenceNo !== null && $licenceNo !== '' ? (int) $licenceNo : null,
             'nic' => (int) preg_replace('/[^0-9]/', '', $nic),

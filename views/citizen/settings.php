@@ -59,16 +59,31 @@
                     <input type="hidden" name="action" value="update_password">
                     <div class="space-y-2">
                         <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Current Password</label>
-                        <input type="password" name="current_password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
+                        <div class="relative">
+                            <input type="password" id="current_password" name="current_password" class="w-full pl-4 pr-12 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
+                            <button type="button" onclick="togglePasswordVisibility('current_password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" title="Toggle password visibility">
+                                <span class="material-symbols-outlined text-[20px]">visibility</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">New Password</label>
-                            <input type="password" name="new_password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
+                            <div class="relative">
+                                <input type="password" id="new_password" name="new_password" class="w-full pl-4 pr-12 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
+                                <button type="button" onclick="togglePasswordVisibility('new_password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" title="Toggle password visibility">
+                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Confirm New Password</label>
-                            <input type="password" name="confirm_password" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
+                            <div class="relative">
+                                <input type="password" id="confirm_password" name="confirm_password" class="w-full pl-4 pr-12 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" required>
+                                <button type="button" onclick="togglePasswordVisibility('confirm_password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" title="Toggle password visibility">
+                                    <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="flex justify-end pt-4">
@@ -83,6 +98,18 @@
 </main>
 
 <script>
+    function togglePasswordVisibility(inputId, button) {
+        const input = document.getElementById(inputId);
+        const icon = button.querySelector('span');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility_off';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility';
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         const sidebar = document.getElementById("citizen-sidebar");
         const openBtn = document.getElementById("open-sidebar-btn");
