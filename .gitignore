@@ -2,3 +2,5 @@
 /vendor/
 /public/uploads/evidence/*
 !/public/uploads/evidence/.gitignore
+/public/uploads/profile/*
+!/public/uploads/profile/.gitignore

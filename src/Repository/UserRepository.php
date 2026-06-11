@@ -79,14 +79,23 @@ final class UserRepository
         return array_map(map_user(...), $stmt->fetchAll());
     }
 
-    public function updateProfile(int $id, string $fullName, ?int $licenceNo, int $telNo): bool
+    public function updateProfile(int $id, string $fullName, ?int $licenceNo, int $telNo, ?string $profilePic = null, bool $updateProfilePic = false): bool
     {
-        $stmt = Database::pdo()->prepare(
-            'UPDATE `user` 
-             SET full_name = ?, licence_no = ?, tel_no = ? 
-             WHERE id = ?'
-        );
-        return $stmt->execute([$fullName, $licenceNo, $telNo, $id]);
+        if ($updateProfilePic) {
+            $stmt = Database::pdo()->prepare(
+                'UPDATE `user` 
+                 SET full_name = ?, licence_no = ?, tel_no = ?, profile_pic = ? 
+                 WHERE id = ?'
+            );
+            return $stmt->execute([$fullName, $licenceNo, $telNo, $profilePic, $id]);
+        } else {
+            $stmt = Database::pdo()->prepare(
+                'UPDATE `user` 
+                 SET full_name = ?, licence_no = ?, tel_no = ? 
+                 WHERE id = ?'
+            );
+            return $stmt->execute([$fullName, $licenceNo, $telNo, $id]);
+        }
     }
 
     public function updatePassword(int $id, string $password): bool

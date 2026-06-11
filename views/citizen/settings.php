@@ -20,8 +20,40 @@
                 <p class="text-on-surface-variant text-sm font-medium">Update your public profile and contact details.</p>
             </div>
             <div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
-                <form method="POST" action="<?= url('app_citizen_settings') ?>" class="space-y-6">
+                <form method="POST" action="<?= url('app_citizen_settings') ?>" enctype="multipart/form-data" class="space-y-6">
                     <input type="hidden" name="action" value="update_profile">
+                    
+                    <!-- Profile Picture Upload Section -->
+                    <div class="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-surface-container-high">
+                        <div class="relative group">
+                            <div class="w-24 h-24 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center text-primary border-4 border-white shadow-md relative">
+                                <?php if ($user->profilePic): ?>
+                                    <img id="avatar-preview" src="<?= e($user->profilePic) ?>" alt="Avatar" class="w-full h-full object-cover">
+                                <?php else: ?>
+                                    <div id="avatar-placeholder" class="flex items-center justify-center w-full h-full">
+                                        <span class="material-symbols-outlined text-5xl" data-icon="person">person</span>
+                                    </div>
+                                    <img id="avatar-preview" src="" alt="Avatar" class="w-full h-full object-cover hidden">
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-center sm:text-left">
+                            <label class="block text-sm font-bold text-on-surface">Profile Picture</label>
+                            <p class="text-xs text-on-surface-variant">JPG, PNG or JPEG. Max size: <?= format_bytes(get_max_upload_size(), 0) ?> (based on system limits).</p>
+                            <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                                <label class="cursor-pointer bg-surface-container-high hover:bg-surface-container-highest px-4 py-2 rounded-lg text-xs font-bold transition-all inline-block border border-outline-variant/30">
+                                    <span>Choose New Photo</span>
+                                    <input type="file" name="profile_pic" id="profile-pic-input" class="hidden" accept="image/png, image/jpeg, image/jpg" onchange="previewAvatar(this)">
+                                </label>
+                                <?php if ($user->profilePic): ?>
+                                    <button type="submit" name="remove_profile_pic" value="1" class="text-error hover:bg-error-container/20 px-4 py-2 rounded-lg text-xs font-bold transition-all border border-error/20">
+                                        Remove Photo
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Full Name</label>
@@ -98,6 +130,25 @@
 </main>
 
 <script>
+    function previewAvatar(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('avatar-preview');
+                const placeholder = document.getElementById('avatar-placeholder');
+                
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                if (placeholder) {
+                    placeholder.classList.add('hidden');
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     function togglePasswordVisibility(inputId, button) {
         const input = document.getElementById(inputId);
         const icon = button.querySelector('span');

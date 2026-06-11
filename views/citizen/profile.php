@@ -21,8 +21,12 @@
 <main class="md:ml-64 pt-24 pb-32 px-4 md:px-8 max-w-5xl mx-auto space-y-8 flex-1 transition-all">
     <div class="space-y-6">
         <div class="glass-panel p-8 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-            <div class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center text-primary relative z-10">
-                <span class="material-symbols-outlined text-5xl" data-icon="person">person</span>
+            <div class="w-24 h-24 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center text-primary border-4 border-white shadow-md relative z-10">
+                <?php if ($user->profilePic): ?>
+                    <img src="<?= e($user->profilePic) ?>" alt="Profile Picture" class="w-full h-full object-cover" />
+                <?php else: ?>
+                    <span class="material-symbols-outlined text-5xl" data-icon="person">person</span>
+                <?php endif; ?>
             </div>
             <div class="flex-1 text-center md:text-left relative z-10">
                 <h1 class="font-headline font-extrabold text-3xl text-on-surface"><?= e($user->fullName) ?></h1>

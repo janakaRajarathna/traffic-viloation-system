@@ -33,8 +33,12 @@
     </a>
     <div class="pt-6 border-t border-outline-variant/10 space-y-1">
         <div class="flex items-center gap-3 px-2 py-2 mb-4">
-            <div class="w-10 h-10 rounded-full bg-surface-container-high border flex items-center justify-center">
-                <span class="material-symbols-outlined text-on-surface-variant">person</span>
+            <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high border flex items-center justify-center">
+                <?php if (!empty($user->profilePic)): ?>
+                    <img src="<?= e($user->profilePic) ?>" alt="Profile Photo" class="w-full h-full object-cover" />
+                <?php else: ?>
+                    <span class="material-symbols-outlined text-on-surface-variant">person</span>
+                <?php endif; ?>
             </div>
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-bold text-on-surface truncate"><?= e($user->fullName ?? 'Citizen') ?></p>

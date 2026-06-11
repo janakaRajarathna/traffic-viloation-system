@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     licence_no BIGINT DEFAULT NULL,
     nic BIGINT NOT NULL,
     tel_no BIGINT NOT NULL,
+    profile_pic VARCHAR(255) DEFAULT NULL,
     created_at DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

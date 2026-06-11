@@ -126,6 +126,7 @@ function map_user(array $row): object
         'licenceNo' => $row['licence_no'] !== null ? (int) $row['licence_no'] : null,
         'NIC' => (int) $row['nic'],
         'telNo' => (int) $row['tel_no'],
+        'profilePic' => $row['profile_pic'] ?? null,
         'createdAt' => $row['created_at'] ? new DateTimeImmutable($row['created_at']) : null,
         'vehicles' => [],
     ];
@@ -173,4 +174,46 @@ function map_vehicle(array $row): object
         'chassiNo' => $row['chassi_no'],
         'engNo' => $row['eng_no'],
     ];
+}
+
+function parse_ini_size(string $val): int
+{
+    $val = trim($val);
+    if ($val === '') {
+        return 0;
+    }
+    $last = strtolower($val[strlen($val) - 1]);
+    $val = (int) $val;
+    switch ($last) {
+        case 'g':
+            $val *= 1024;
+            // fallthrough
+        case 'm':
+            $val *= 1024;
+            // fallthrough
+        case 'k':
+            $val *= 1024;
+            // fallthrough
+    }
+    return $val;
+}
+
+function get_max_upload_size(): int
+{
+    $phpMax = parse_ini_size(ini_get('upload_max_filesize'));
+    $postMax = parse_ini_size(ini_get('post_max_size'));
+    $appMax = 5 * 1024 * 1024; // 5MB limit inside our app
+
+    $limits = array_filter([$phpMax, $postMax, $appMax]);
+    return min($limits);
+}
+
+function format_bytes(int $bytes, int $precision = 2): string
+{
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+    $bytes /= pow(1024, $pow);
+    return round($bytes, $precision) . ' ' . $units[$pow];
 }

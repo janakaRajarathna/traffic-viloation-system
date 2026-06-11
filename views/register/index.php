@@ -1,4 +1,4 @@
-<?php $bodyClass = 'bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center'; ?>
+ <?php $bodyClass = 'bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center'; ?>
 <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md flex items-center justify-between px-6 h-16">
     <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-primary">gavel</span>
