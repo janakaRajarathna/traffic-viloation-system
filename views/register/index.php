@@ -10,6 +10,7 @@
         <h1 class="font-extrabold text-3xl mb-2">Create Account</h1>
         <p class="text-on-surface-variant mb-8">Join the digital civic infrastructure.</p>
         <form class="space-y-6" method="POST" action="<?= url('app_register_process') ?>">
+            <?php require APP_ROOT . 'views/partials/flashes.php'; ?>
             <div class="space-y-2">
                 <label class="block text-xs font-bold uppercase text-on-surface-variant" for="fullName">Full Name</label>
                 <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="fullName" id="fullName" type="text" required />
@@ -17,11 +18,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="block text-xs font-bold uppercase" for="NIC">NIC</label>
-                    <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="NIC" id="NIC" required />
+                    <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="NIC" id="NIC" pattern="[0-9]{12}" title="NIC must contain exactly 12 digits" required />
                 </div>
                 <div class="space-y-2">
                     <label class="block text-xs font-bold uppercase" for="telNo">Telephone</label>
-                    <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="telNo" id="telNo" type="tel" required />
+                    <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="telNo" id="telNo" type="tel" pattern="[0-9]{10}" title="Phone number must contain exactly 10 digits" required />
                 </div>
             </div>
             <div class="space-y-2">
@@ -41,7 +42,7 @@
             </div>
             <div class="space-y-2">
                 <label class="block text-xs font-bold uppercase" for="licenceNo">License Number (drivers)</label>
-                <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="licenceNo" id="licenceNo" />
+                <input class="w-full px-4 py-3.5 bg-surface-container-highest rounded-lg border-none" name="licenceNo" id="licenceNo" pattern="B[0-9]{7}" title="License number must start with a capital B followed by exactly 7 digits (e.g. B1234567)" />
             </div>
             <div class="space-y-2">
                 <label class="block text-xs font-bold uppercase" for="password">Password</label>

@@ -123,7 +123,7 @@ function map_user(array $row): object
         'fullName' => $row['full_name'],
         'password' => $row['password'],
         'role' => $row['role'],
-        'licenceNo' => $row['licence_no'] !== null ? (int) $row['licence_no'] : null,
+        'licenceNo' => $row['licence_no'] !== null ? (string) $row['licence_no'] : null,
         'NIC' => (int) $row['nic'],
         'telNo' => (int) $row['tel_no'],
         'profilePic' => $row['profile_pic'] ?? null,

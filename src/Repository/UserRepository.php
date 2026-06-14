@@ -36,7 +36,7 @@ final class UserRepository
     }
 
 
-    public function findByLicenceNo(int $licenceNo): ?object
+    public function findByLicenceNo(string $licenceNo): ?object
     {
         $stmt = Database::pdo()->prepare('SELECT * FROM `user` WHERE licence_no = ? LIMIT 1');
         $stmt->execute([$licenceNo]);
@@ -79,7 +79,7 @@ final class UserRepository
         return array_map(map_user(...), $stmt->fetchAll());
     }
 
-    public function updateProfile(int $id, string $fullName, ?int $licenceNo, int $telNo, ?string $profilePic = null, bool $updateProfilePic = false): bool
+    public function updateProfile(int $id, string $fullName, ?string $licenceNo, int $telNo, ?string $profilePic = null, bool $updateProfilePic = false): bool
     {
         if ($updateProfilePic) {
             $stmt = Database::pdo()->prepare(

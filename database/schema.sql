@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     full_name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(255) NOT NULL,
-    licence_no BIGINT DEFAULT NULL,
+    licence_no VARCHAR(50) DEFAULT NULL,
     nic BIGINT NOT NULL,
     tel_no BIGINT NOT NULL,
     profile_pic VARCHAR(255) DEFAULT NULL,

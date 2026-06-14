@@ -61,7 +61,7 @@
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Telephone Number</label>
-                            <input type="tel" name="tel_no" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e((string) $user->telNo) ?>" required>
+                            <input type="tel" name="tel_no" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e(str_pad((string) $user->telNo, 10, '0', STR_PAD_LEFT)) ?>" pattern="[0-9]{10}" title="Phone number must contain exactly 10 digits" required>
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">National ID Card</label>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">License Number</label>
-                            <input type="text" name="licence_no" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e($user->licenceNo !== null ? (string) $user->licenceNo : '') ?>">
+                            <input type="text" name="licence_no" class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 font-medium" value="<?= e($user->licenceNo !== null ? (string) $user->licenceNo : '') ?>" pattern="B[0-9]{7}" title="License number must start with a capital B followed by exactly 7 digits (e.g. B1234567)">
                         </div>
                     </div>
                     <div class="flex justify-end pt-4">

@@ -38,7 +38,7 @@
                     </span>
                     <span class="px-3 py-1 bg-surface-container-high rounded-full text-xs font-bold text-on-surface-variant flex items-center gap-1">
                         <span class="material-symbols-outlined text-sm" data-icon="call">call</span>
-                        <?= e((string) $user->telNo) ?>
+                        <?= e(str_pad((string) $user->telNo, 10, '0', STR_PAD_LEFT)) ?>
                     </span>
                 </div>
             </div>

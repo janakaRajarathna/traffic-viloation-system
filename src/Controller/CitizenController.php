@@ -91,80 +91,92 @@ final class CitizenController
 
                 if ($fullName === '' || $telNo === '') {
                     flash('error', 'Full Name and Telephone Number are required.');
-                } else {
-                    $telNoInt = (int) preg_replace('/[^0-9]/', '', $telNo);
-                    $licenceNoInt = ($licenceNo !== null && trim((string) $licenceNo) !== '') ? (int) preg_replace('/[^0-9]/', '', (string) $licenceNo) : null;
-                    
-                    $profilePicPath = null;
-                    $updateProfilePic = false;
+                    redirect(url('app_citizen_settings'));
+                }
 
-                    if ($removeProfilePic) {
+                // Telephone validation: exactly 10 digits
+                if (!preg_match('/^[0-9]{10}$/', $telNo)) {
+                    flash('error', 'Phone number must contain exactly 10 digits.');
+                    redirect(url('app_citizen_settings'));
+                }
+
+                // License number validation: optional, but if provided, must start with capital B and contain 7 digits
+                $licenceNoStr = ($licenceNo !== null && trim((string) $licenceNo) !== '') ? trim((string) $licenceNo) : null;
+                if ($licenceNoStr !== null && !preg_match('/^B[0-9]{7}$/', $licenceNoStr)) {
+                    flash('error', 'License number must start with a capital B followed by exactly 7 digits (e.g. B1234567).');
+                    redirect(url('app_citizen_settings'));
+                }
+
+                $telNoInt = (int) preg_replace('/[^0-9]/', '', $telNo);
+                $profilePicPath = null;
+                $updateProfilePic = false;
+
+                if ($removeProfilePic) {
+                    if ($user->profilePic) {
+                        $oldFile = APP_ROOT . 'public' . $user->profilePic;
+                        if (is_file($oldFile)) {
+                            @unlink($oldFile);
+                        }
+                    }
+                    $profilePicPath = null;
+                    $updateProfilePic = true;
+                } elseif ($profilePicFile !== null) {
+                    if (($profilePicFile['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
+                        $errMap = [
+                            UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the PHP upload limit (' . format_bytes(parse_ini_size(ini_get('upload_max_filesize')), 0) . ') configured in php.ini. Please upload a smaller image or contact the administrator to increase the limit.',
+                            UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+                            UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded.',
+                            UPLOAD_ERR_NO_FILE => 'No file was uploaded.',
+                            UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
+                            UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
+                            UPLOAD_ERR_EXTENSION => 'A PHP extension stopped the file upload.',
+                        ];
+                        $errMsg = $errMap[$profilePicFile['error']] ?? 'Unknown upload error.';
+                        flash('error', 'Upload failed: ' . $errMsg);
+                        redirect(url('app_citizen_settings'));
+                    }
+
+                    $extension = strtolower(pathinfo((string) $profilePicFile['name'], PATHINFO_EXTENSION));
+                    $allowedExtensions = ['png', 'jpg', 'jpeg'];
+                    $maxBytes = get_max_upload_size();
+
+                    if (!in_array($extension, $allowedExtensions, true)) {
+                        flash('error', 'Invalid image type. Only PNG, JPG, and JPEG are allowed.');
+                        redirect(url('app_citizen_settings'));
+                    }
+
+                    if ((int) $profilePicFile['size'] > $maxBytes) {
+                        flash('error', 'Image is too large. Maximum allowed size is ' . format_bytes($maxBytes) . '.');
+                        redirect(url('app_citizen_settings'));
+                    }
+
+                    $uploadDir = APP_ROOT . 'public/uploads/profile';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0775, true);
+                    }
+
+                    $newFilename = 'profile-' . (int) $user->id . '-' . bin2hex(random_bytes(8)) . '.' . $extension;
+                    $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $newFilename;
+
+                    if (move_uploaded_file((string) $profilePicFile['tmp_name'], $targetPath)) {
                         if ($user->profilePic) {
                             $oldFile = APP_ROOT . 'public' . $user->profilePic;
                             if (is_file($oldFile)) {
                                 @unlink($oldFile);
                             }
                         }
-                        $profilePicPath = null;
+                        $profilePicPath = '/uploads/profile/' . $newFilename;
                         $updateProfilePic = true;
-                    } elseif ($profilePicFile !== null) {
-                        if (($profilePicFile['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
-                            $errMap = [
-                                UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the PHP upload limit (' . format_bytes(parse_ini_size(ini_get('upload_max_filesize')), 0) . ') configured in php.ini. Please upload a smaller image or contact the administrator to increase the limit.',
-                                UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
-                                UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded.',
-                                UPLOAD_ERR_NO_FILE => 'No file was uploaded.',
-                                UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
-                                UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
-                                UPLOAD_ERR_EXTENSION => 'A PHP extension stopped the file upload.',
-                            ];
-                            $errMsg = $errMap[$profilePicFile['error']] ?? 'Unknown upload error.';
-                            flash('error', 'Upload failed: ' . $errMsg);
-                            redirect(url('app_citizen_settings'));
-                        }
-
-                        $extension = strtolower(pathinfo((string) $profilePicFile['name'], PATHINFO_EXTENSION));
-                        $allowedExtensions = ['png', 'jpg', 'jpeg'];
-                        $maxBytes = get_max_upload_size();
-
-                        if (!in_array($extension, $allowedExtensions, true)) {
-                            flash('error', 'Invalid image type. Only PNG, JPG, and JPEG are allowed.');
-                            redirect(url('app_citizen_settings'));
-                        }
-
-                        if ((int) $profilePicFile['size'] > $maxBytes) {
-                            flash('error', 'Image is too large. Maximum allowed size is ' . format_bytes($maxBytes) . '.');
-                            redirect(url('app_citizen_settings'));
-                        }
-
-                        $uploadDir = APP_ROOT . 'public/uploads/profile';
-                        if (!is_dir($uploadDir)) {
-                            mkdir($uploadDir, 0775, true);
-                        }
-
-                        $newFilename = 'profile-' . (int) $user->id . '-' . bin2hex(random_bytes(8)) . '.' . $extension;
-                        $targetPath = $uploadDir . DIRECTORY_SEPARATOR . $newFilename;
-
-                        if (move_uploaded_file((string) $profilePicFile['tmp_name'], $targetPath)) {
-                            if ($user->profilePic) {
-                                $oldFile = APP_ROOT . 'public' . $user->profilePic;
-                                if (is_file($oldFile)) {
-                                    @unlink($oldFile);
-                                }
-                            }
-                            $profilePicPath = '/uploads/profile/' . $newFilename;
-                            $updateProfilePic = true;
-                        } else {
-                            $lastErr = error_get_last();
-                            $detail = $lastErr ? ' Error details: ' . $lastErr['message'] : '';
-                            flash('error', 'Failed to upload profile picture.' . $detail);
-                            redirect(url('app_citizen_settings'));
-                        }
+                    } else {
+                        $lastErr = error_get_last();
+                        $detail = $lastErr ? ' Error details: ' . $lastErr['message'] : '';
+                        flash('error', 'Failed to upload profile picture.' . $detail);
+                        redirect(url('app_citizen_settings'));
                     }
-
-                    $this->users->updateProfile((int) $user->id, $fullName, $licenceNoInt, $telNoInt, $profilePicPath, $updateProfilePic);
-                    flash('success', 'Personal details updated successfully.');
                 }
+
+                $this->users->updateProfile((int) $user->id, $fullName, $licenceNoStr, $telNoInt, $profilePicPath, $updateProfilePic);
+                flash('success', 'Personal details updated successfully.');
                 redirect(url('app_citizen_settings'));
             }
 
