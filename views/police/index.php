@@ -195,13 +195,14 @@
                         <th class="px-6 py-4">Location</th>
                         <th class="px-6 py-4">Submitted</th>
                         <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4 text-right">Evidence</th>
+                        <th class="px-6 py-4 text-center">Evidence</th>
+                        <th class="px-6 py-4 text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/10">
                     <?php if (empty($recentCitizenReports)): ?>
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">No citizen reports submitted yet.</td>
+                            <td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No citizen reports submitted yet.</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($recentCitizenReports as $report): ?>
@@ -217,8 +218,17 @@
                                 <td class="px-6 py-4">
                                     <span class="px-3 py-1 rounded-full text-xs font-bold bg-tertiary-fixed text-on-tertiary-fixed-variant"><?= e($report->status) ?></span>
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td class="px-6 py-4 text-center">
                                     <a class="text-primary font-bold text-sm hover:opacity-70" href="<?= url('app_evidence_report', ['id' => $report->id]) ?>" target="_blank" rel="noopener">View</a>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <?php if ($report->status === 'Pending Review'): ?>
+                                        <a class="inline-block bg-primary text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm hover:opacity-90 active:scale-95 transition-all" href="<?= url('app_violations') ?>?report_id=<?= $report->id ?>">
+                                            Action
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="text-on-surface-variant/50 text-xs font-semibold">Processed</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

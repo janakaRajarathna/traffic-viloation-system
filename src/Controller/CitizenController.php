@@ -204,4 +204,21 @@ final class CitizenController
             'user' => $user,
         ]);
     }
+
+    public function notifications(): void
+    {
+        $user = $this->requireUser();
+
+        $notificationRepo = new \App\Repository\NotificationRepository();
+        // Mark all as read when visiting
+        $notificationRepo->markAllAsReadByUser((int) $user->id);
+
+        $notifications = $notificationRepo->findByUser((int) $user->id, 50);
+
+        render('citizen/notifications', [
+            'pageTitle' => 'My Notifications | Civic Flow',
+            'user' => $user,
+            'notifications' => $notifications,
+        ]);
+    }
 }

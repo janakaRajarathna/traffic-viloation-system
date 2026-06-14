@@ -65,7 +65,47 @@
             <p class="text-on-surface-variant max-w-2xl text-lg">Enter the legal details of the observed infraction. Ensure all digital evidence is attached for automated evidence verification.</p>
         </div>
 
+        <?php 
+        $prefilledVehicle = '';
+        $prefilledLocation = '';
+        if (!empty($report)) {
+            $prefilledLocation = $report->location;
+            // Try to regex extract vehicle plate (e.g. ABC-1234 or WP-ABC-1234 or AB-1234)
+            if (preg_match('/(?:[A-Z]{1,2}-)?[A-Z]{2,3}-\d{4}/i', $report->description, $matches)) {
+                $prefilledVehicle = strtoupper($matches[0]);
+            }
+        }
+        ?>
+
+        <?php if (!empty($report)): ?>
+            <div class="mb-8 p-6 bg-gradient-to-br from-blue-50/80 to-indigo-50/50 backdrop-blur-xl border border-blue-200/50 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 bg-primary/10 text-primary font-bold text-xs rounded-full uppercase tracking-wider">Related Citizen Report</span>
+                        <span class="text-xs font-mono text-on-surface-variant font-semibold">#CR-<?= e((string) $report->id) ?></span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-on-surface text-lg">Location: <?= e($report->location) ?></h4>
+                        <p class="text-on-surface-variant mt-1 text-sm"><?= e($report->description) ?></p>
+                    </div>
+                    <div class="text-xs text-on-surface-variant font-medium flex items-center gap-4">
+                        <span>Submitted: <?= $report->createdAt ? e($report->createdAt->format('M d, Y h:i A')) : '—' ?></span>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 self-stretch md:self-auto justify-end">
+                    <a class="bg-surface-container-high text-on-surface-variant px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-all flex items-center gap-2 justify-center" href="<?= url('app_evidence_report', ['id' => $report->id]) ?>" target="_blank" rel="noopener">
+                        <span class="material-symbols-outlined text-base">visibility</span>
+                        View Evidence
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <form id="violation-form" method="post" action="<?= url('app_violations') ?>" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <?php if (!empty($report)): ?>
+                <input type="hidden" name="report_id" value="<?= e((string) $report->id) ?>" />
+            <?php endif; ?>
+
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_12px_32px_rgba(0,97,164,0.06)]">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -73,7 +113,7 @@
                             <label class="text-sm font-bold text-on-surface-variant px-1" for="vehicleNumber">Vehicle Number</label>
                             <div class="relative">
                                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">directions_car</span>
-                                <input id="vehicleNumber" name="vehicle_number" class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-headline font-bold text-lg placeholder:font-normal placeholder:text-outline/50" placeholder="e.g. ABC-1234" type="text" required />
+                                <input id="vehicleNumber" name="vehicle_number" class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-headline font-bold text-lg placeholder:font-normal placeholder:text-outline/50" placeholder="e.g. ABC-1234" type="text" value="<?= e($prefilledVehicle) ?>" required />
                             </div>
                         </div>
 
@@ -81,7 +121,7 @@
                             <label class="text-sm font-bold text-on-surface-variant px-1" for="driverLicense">Driver License Number</label>
                             <div class="relative">
                                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">badge</span>
-                                <input id="driverLicense" name="driver_licence" class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-headline font-bold text-lg placeholder:font-normal placeholder:text-outline/50" placeholder="e.g. 33333333" type="text" required />
+                                <input id="driverLicense" name="driver_licence" class="w-full pl-12 pr-4 py-4 bg-surface-container-highest border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-headline font-bold text-lg placeholder:font-normal placeholder:text-outline/50" placeholder="e.g. B1234567" type="text" required />
                             </div>
                         </div>
 
@@ -101,7 +141,7 @@
 
                         <div class="space-y-2 md:col-span-2">
                             <label class="text-sm font-bold text-on-surface-variant px-1" for="location">Location</label>
-                            <input id="location" name="location" class="w-full px-4 py-4 bg-surface-container-highest border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="Street or intersection" type="text" />
+                            <input id="location" name="location" class="w-full px-4 py-4 bg-surface-container-highest border-none rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="Street or intersection" type="text" value="<?= e($prefilledLocation) ?>" />
                         </div>
 
                         <div class="space-y-2 md:col-span-2">

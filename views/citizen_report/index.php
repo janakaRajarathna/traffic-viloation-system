@@ -159,7 +159,18 @@
                                     </span>
                                 </td>
                                 <td class="px-8 py-6 text-right">
-                                    <a class="text-primary font-bold text-sm hover:opacity-70" href="<?= url('app_evidence_report', ['id' => $report->id]) ?>" target="_blank" rel="noopener">View Evidence</a>
+                                    <div class="flex items-center justify-end gap-4">
+                                        <a class="text-primary font-bold text-sm hover:opacity-70" href="<?= url('app_evidence_report', ['id' => $report->id]) ?>" target="_blank" rel="noopener">View Evidence</a>
+                                        <?php if (!empty($isPoliceView)): ?>
+                                            <?php if ($report->status === 'Pending Review'): ?>
+                                                <a class="bg-primary text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:opacity-90 active:scale-95 transition-all" href="<?= url('app_violations') ?>?report_id=<?= $report->id ?>">
+                                                    Action
+                                                </a>
+                                            <?php else: ?>
+                                                <span class="text-on-surface-variant/50 text-xs font-bold uppercase tracking-wider">Processed</span>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

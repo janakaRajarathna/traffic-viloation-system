@@ -17,6 +17,7 @@ function url(string $route, array $params = []): string
         'app_citizen' => '/citizen',
         'app_citizen_profile' => '/citizen/profile',
         'app_citizen_settings' => '/citizen/settings',
+        'app_citizen_notifications' => '/citizen/notifications',
         'app_police' => '/police',
         'app_violations' => '/violations',
         'app_citizen_reports' => '/citizen-reports',

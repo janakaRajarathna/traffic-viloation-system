@@ -80,4 +80,12 @@ final class CitizenReportRepository
 
         return (int) $stmt->fetchColumn();
     }
+
+    public function updateStatus(int $id, string $status): bool
+    {
+        $stmt = Database::pdo()->prepare(
+            'UPDATE citizen_report SET status = ? WHERE id = ?'
+        );
+        return $stmt->execute([$status, $id]);
+    }
 }
