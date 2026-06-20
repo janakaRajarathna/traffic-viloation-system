@@ -123,12 +123,13 @@ body {
                             <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Location</th>
                             <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant text-right">Amount</th>
                             <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant text-center">Status</th>
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y-0">
                         <?php if (empty($violations)): ?>
                         <tr>
-                            <td colspan="5" class="px-6 py-6 text-center text-on-surface-variant font-medium">No traffic violations on record. Great job!</td>
+                            <td colspan="6" class="px-6 py-6 text-center text-on-surface-variant font-medium">No traffic violations on record. Great job!</td>
                         </tr>
                         <?php else: ?>
                         <?php foreach ($violations as $violation): ?>
@@ -163,6 +164,19 @@ body {
                             </td>
                             <td class="px-6 py-6 text-center">
                                 <span class="px-4 py-1.5 rounded-full <?= e($statusClass) ?> text-xs font-bold"><?= e($violation->status) ?></span>
+                            </td>
+                            <td class="px-6 py-6 text-right">
+                                <?php if (in_array($violation->status, ['Pending', 'Unpaid'], true)): ?>
+                                    <a href="<?= url('app_payment') ?>?violation_id=<?= (int) $violation->id ?>" class="text-primary font-bold text-sm hover:underline inline-flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">payments</span>
+                                        Pay
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-emerald-600 text-sm font-semibold inline-flex items-center gap-1 select-none">
+                                        <span class="material-symbols-outlined text-sm">check_circle</span>
+                                        Paid
+                                    </span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -219,16 +233,16 @@ body {
 
 <?php if ($hasLicense && $outstandingTotal > 0): ?>
 <div class="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-6 md:hidden">
-    <button class="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold rounded-xl shadow-xl flex items-center justify-center gap-2 active:scale-95 transition-transform" type="button">
+    <a href="<?= url('app_payment') ?>?type=all" class="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold rounded-xl shadow-xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
         <span class="material-symbols-outlined" data-icon="payments">payments</span>
         Pay All Fines ($<?= e(number_format((float) $outstandingTotal, 2)) ?>)
-    </button>
+    </a>
 </div>
 <div class="hidden md:block fixed bottom-8 right-8 z-40">
-    <button class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold rounded-xl shadow-[0_12px_24px_rgba(0,97,164,0.3)] flex items-center justify-center gap-3 hover:scale-105 hover:shadow-[0_16px_32px_rgba(0,97,164,0.4)] active:scale-95 transition-all" type="button">
+    <a href="<?= url('app_payment') ?>?type=all" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold rounded-xl shadow-[0_12px_24px_rgba(0,97,164,0.3)] flex items-center justify-center gap-3 hover:scale-105 hover:shadow-[0_16px_32px_rgba(0,97,164,0.4)] active:scale-95 transition-all">
         <span class="material-symbols-outlined" data-icon="payments">payments</span>
         Settle Violations Now
-    </button>
+    </a>
 </div>
 <?php elseif (!$hasLicense): ?>
 <div class="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-6 md:hidden">

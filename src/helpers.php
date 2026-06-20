@@ -24,6 +24,8 @@ function url(string $route, array $params = []): string
         'app_admin_dashboard' => '/admin',
         'app_evidence_report' => '/evidence/report/{id}',
         'app_evidence_file' => '/uploads/evidence/{filename}',
+        'app_payment' => '/citizen/payment',
+        'app_payment_process' => '/citizen/payment/process',
     ];
 
     $path = $routes[$route] ?? $route;

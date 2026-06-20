@@ -7,6 +7,7 @@ use App\Controller\CitizenController;
 use App\Controller\CitizenReportController;
 use App\Controller\EvidenceController;
 use App\Controller\LoginController;
+use App\Controller\PaymentController;
 use App\Controller\PoliceController;
 use App\Controller\RegisterController;
 use App\Controller\ViolationController;
@@ -21,6 +22,7 @@ return static function (Router $router): void {
     $citizenReport = new CitizenReportController();
     $admin = new AdminController();
     $evidence = new EvidenceController();
+    $payment = new PaymentController();
 
     $router->match(['GET', 'POST'], '/login', fn () => $login->index());
     $router->get('/register', fn () => $register->index());
@@ -31,6 +33,8 @@ return static function (Router $router): void {
     $router->get('/citizen/profile', fn () => $citizen->profile());
     $router->match(['GET', 'POST'], '/citizen/settings', fn () => $citizen->settings());
     $router->get('/citizen/notifications', fn () => $citizen->notifications());
+    $router->get('/citizen/payment', fn () => $payment->index());
+    $router->post('/citizen/payment/process', fn () => $payment->process());
 
     $router->get('/police', fn () => $police->index());
 

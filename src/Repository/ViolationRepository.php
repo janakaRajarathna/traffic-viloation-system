@@ -138,4 +138,38 @@ final class ViolationRepository
     {
         return $this->findRecent($limit);
     }
+
+    public function findById(int $id): ?object
+    {
+        $stmt = Database::pdo()->prepare('SELECT * FROM violation WHERE id = ?');
+        $stmt->execute([$id]);
+        $row = $stmt->fetch();
+
+        return $row ? map_violation($row) : null;
+    }
+
+    /** @return object[] */
+    public function findPendingByDriver(int $driverId): array
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT * FROM violation WHERE driver_id = ? AND status IN ('Unpaid', 'Pending') ORDER BY created_at DESC"
+        );
+        $stmt->execute([$driverId]);
+
+        return array_map(map_violation(...), $stmt->fetchAll());
+    }
+
+    public function updateStatus(int $id, string $status): bool
+    {
+        $stmt = Database::pdo()->prepare('UPDATE violation SET status = ? WHERE id = ?');
+        return $stmt->execute([$status, $id]);
+    }
+
+    public function updateStatusByDriver(int $driverId, string $status): bool
+    {
+        $stmt = Database::pdo()->prepare(
+            "UPDATE violation SET status = ? WHERE driver_id = ? AND status IN ('Unpaid', 'Pending')"
+        );
+        return $stmt->execute([$status, $driverId]);
+    }
 }
